@@ -22,16 +22,19 @@ startLat = 38.469007
 startLon = -110.923046
 
 i = 0
-for x in xrange(100):  # number of times to loop through all properties
+for x in xrange(100):  # number of times to shift the view
     
     azimuth = 90
     if i == 0:
         lat = startLat
         lon = startLon
 
+    # how far to wander from your starting point
     latshift = random.randrange(-200, 200)
     lonshift = random.randrange(-200, 200)
     
+    # adjusting the decimal degrees here could likely
+    # be cleaned up/refactored.  Not very pythonic here.
     if len(str(abs(latshift))) == 1:
         lat += (latshift * 0.0000001) 
     if len(str(abs(latshift))) == 2:
@@ -46,17 +49,19 @@ for x in xrange(100):  # number of times to loop through all properties
     if len(str(abs(lonshift))) == 3:
         lon += (lonshift * 0.00001)        
     
+    # how close to the ground you'll be
     geRange = random.randrange(300, 500)
+    # yup, the tilt range...
     geTilt = random.randrange(0, 45)
-    
+    # yup, the amount of rotation...
     rotation = random.randrange(-30, 30)
     azimuth += rotation
-    
-    n = [5,6,7,8]
+    # 10-15 seconds between target stops.  Doesn't
+    # include the flying to/from each stop.
     geTime = random.randrange(10,15)
 
     if i == 0:
-        geTime = 25
+        geTime = 25 # this is to allow GE to get started up
         
     setCam(lat, lon, geRange, geTilt, azimuth, geTime)   
     i += 1
